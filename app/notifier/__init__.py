@@ -133,10 +133,15 @@ async def __dr_notifier():
         if dr:
             message = "🎂 В ближайшие дни Дни Рождения у следующих сотрудников:\n\n"
             for employee in dr:
-                if employee.get_days_to_birth() == 0:
-                    message += f"{employee.name} - завтра День Рождения! Ура!\n"
+                days_to_birth = employee.get_days_to_birth()
+                message += f"{employee.name}"
+
+                if days_to_birth == 0:
+                    message += f" - сегодня День Рождения\n"
+                elif days_to_birth == 1:
+                    message += f" - завтра День Рождения\n"
                 else:   
-                    message += f"{employee.name} - через {employee.get_days_to_birth()} дней\n"
+                    message += f" - через {days_to_birth} дней\n"
             
             # Сохраняем сообщение для отправки в указанное время
             pending_notifications['birthday'] = [(message, get_all_to_notify())]
